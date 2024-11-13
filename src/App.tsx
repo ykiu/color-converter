@@ -3,7 +3,12 @@ import "./App.css";
 import { parseColor, rgbToHex, rgbToHsl } from "./converters";
 
 function App() {
-  const [text, setText] = useState("#ff0088\n#ff0044");
+  const [text, setText] = useState(() =>
+    new Array(18)
+      .fill("")
+      .map((_, i) => `hsl(${180 + i * 10}deg, 80%, 50%)`)
+      .join("\n")
+  );
   const parsed = text.split("\n").map(parseColor);
   const rgb = parsed.map(({ r, g, b }) => `rgb(${r}, ${g}, ${b})`);
   const hex = parsed.map((rgb) => rgbToHex(rgb));
@@ -29,8 +34,9 @@ function App() {
     <div className="container">
       <div className="textarea">
         <div className="textarea__output">
-          {parsed.map(({ r, g, b }) => (
+          {parsed.map(({ r, g, b }, i) => (
             <div
+              key={i}
               className="textarea__output-row"
               style={{ backgroundColor: `rgb(${r}, ${g}, ${b})` }}
             />
