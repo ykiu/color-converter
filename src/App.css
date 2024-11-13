@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  padding: 16px;
+}
+
+.textarea {
+  position: relative;
+  display: flex;
+}
+
+.textarea__input {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.textarea__input-column {
+  min-height: 4lh;
+
+  line-height: 40px;
+  field-sizing: content;
+
+  resize: none;
+  padding: 0 16px;
+
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.textarea__output {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding-top: 4px;
+}
+
+.textarea__output-row {
+  height: 32px;
+  border-radius: 8px;
+  margin: 0px 0px 8px;
+}
