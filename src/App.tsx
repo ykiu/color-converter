@@ -41,7 +41,7 @@ function ColorTextArea({ size, colors, value, onChange }: ColorTextAreaProps) {
 const INITIAL_VALUE =
   new Array(4)
     .fill("")
-    .map((_, i) => `hsl(${210 + i * 40}deg, 80%, 60%)`)
+    .map((_, i) => `hsl(${210 + i * 40}deg, 90%, 60%)`)
     .join("\n") + "\n# your color here";
 
 function App() {
