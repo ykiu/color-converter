@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  font-family: monospace;
+  --line-height: 64px;
 }
 
 body {
@@ -13,42 +15,69 @@ body {
 .container {
   width: 100%;
   padding: 16px;
+  display: flex;
+  gap: 16px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.column__title {
+  align-self: center;
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 16px;
+  line-height: 1;
 }
 
 .textarea {
   position: relative;
   display: flex;
+  border-radius: 8px;
+  overflow: auto;
+
+}
+
+.textarea__typography {
+  width: fit-content;
+  white-space: nowrap;
+  line-height: var(--line-height);
+}
+
+.textarea__typography[data-size=medium] {
+  padding: 0 24px;
+  font-size: 16px;
+}
+
+.textarea__typography[data-size=large] {
+  font-size: 24px;
+  padding: 0 40px;
 }
 
 .textarea__input {
   position: absolute;
-  top: 0;
-  width: 100%;
-}
 
-.textarea__input-column {
   min-height: 4lh;
 
-  line-height: 40px;
   field-sizing: content;
-
   resize: none;
   padding: 0 16px;
 
+  color: #fff0;
+  caret-color: #000;
   background: none;
   border: none;
   outline: none;
 }
 
-.textarea__output {
-  position: absolute;
+.textarea__background {
   top: 0;
   width: 100%;
-  padding-top: 4px;
 }
 
-.textarea__output-row {
-  height: 32px;
-  border-radius: 8px;
-  margin: 0px 0px 8px;
+.textarea__background-row {
+  height: var(--line-height);
+  width: 100%;
 }

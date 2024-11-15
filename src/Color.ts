@@ -50,10 +50,13 @@ function hslToRgb(h: number, s: number, l: number): Rgb {
   };
 }
 
+const FALLBACK_BACKGROUND_COLOR = "#ddd";
+const FALLBACK_TEXT_COLOR = "#777";
+
 export default class Color {
   private rgbValues: Rgb | undefined;
 
-  constructor(private readonly sourceString: string) {
+  constructor(readonly sourceString: string) {
     const result = parseCSSColor(sourceString);
     if (result) {
       const {
@@ -65,7 +68,7 @@ export default class Color {
     }
   }
   hsl(): string {
-    if (!this.rgbValues) return this.sourceString;
+    if (!this.rgbValues) return "";
     let { red, green, blue } = this.rgbValues;
     red /= 255;
     green /= 255;
@@ -100,7 +103,7 @@ export default class Color {
   }
 
   hex(): string {
-    if (!this.rgbValues) return this.sourceString;
+    if (!this.rgbValues) return "";
     const { red, green, blue } = this.rgbValues;
     return `#${((1 << 24) + (red << 16) + (green << 8) + blue)
       .toString(16)
@@ -109,13 +112,18 @@ export default class Color {
   }
 
   rgb(): string {
-    if (!this.rgbValues) return this.sourceString;
+    if (!this.rgbValues) return "";
     const { red, green, blue } = this.rgbValues;
     return `rgb(${red}, ${green}, ${blue})`;
   }
 
+  backgroundColor() {
+    if (!this.rgbValues) return FALLBACK_BACKGROUND_COLOR;
+    return this.rgb();
+  }
+
   textColor() {
-    if (!this.rgbValues) return "";
+    if (!this.rgbValues) return FALLBACK_TEXT_COLOR;
     const { red, green, blue } = this.rgbValues;
     // Calculate relative luminance
     const luminance = (c: number) => {
@@ -130,7 +138,10 @@ export default class Color {
       0.7152 * luminance(green) +
       0.0722 * luminance(blue);
 
-    // Contrast threshold: 4.5:1
-    return L > 0.179 ? "#000" : "#fff";
+    return L > 0.3 ? "#000" : "#fff";
+  }
+
+  isValid() {
+    return !!this.rgbValues;
   }
 }
