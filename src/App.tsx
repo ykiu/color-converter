@@ -1,44 +1,25 @@
 import { useState } from "react";
 import "./App.css";
-import { parseColor, rgbToHex, rgbToHsl } from "./converters";
+import Color from "./Color";
 
 function App() {
   const [text, setText] = useState(() =>
-    new Array(18)
+    new Array(4)
       .fill("")
-      .map((_, i) => `hsl(${180 + i * 10}deg, 80%, 50%)`)
+      .map((_, i) => `hsl(${210 + i * 40}deg, 80%, 60%)`)
       .join("\n")
   );
-  const parsed = text.split("\n").map(parseColor);
-  const rgb = parsed.map(({ r, g, b }) => `rgb(${r}, ${g}, ${b})`);
-  const hex = parsed.map((rgb) => rgbToHex(rgb));
-  const hsl = parsed.map((rgb) => {
-    const { h, s, l } = rgbToHsl(rgb);
-    return `hsl(${h}, ${s}, ${l})`;
-  });
-  const outputs = [
-    {
-      name: "RGB",
-      data: rgb,
-    },
-    {
-      name: "HEX",
-      data: hex,
-    },
-    {
-      name: "HSL",
-      data: hsl,
-    },
-  ];
+  const colors = text.split("\n").map((value) => new Color(value));
+  const types = ["rgb", "hex", "hsl"] as const;
   return (
     <div className="container">
       <div className="textarea">
         <div className="textarea__output">
-          {parsed.map(({ r, g, b }, i) => (
+          {colors.map((color, i) => (
             <div
               key={i}
               className="textarea__output-row"
-              style={{ backgroundColor: `rgb(${r}, ${g}, ${b})` }}
+              style={{ backgroundColor: color.rgb() }}
             />
           ))}
         </div>
@@ -48,13 +29,13 @@ function App() {
             value={text}
             onChange={({ target }) => setText(target.value)}
           />
-          {outputs.map(({ name, data }) => (
+          {types.map((type) => (
             <textarea
-              key={name}
-              title={name}
+              key={type}
+              title={type}
               className="textarea__input-column"
               readOnly
-              value={data.join("\n")}
+              value={colors.map((color) => color[type]()).join("\n")}
             />
           ))}
         </div>
